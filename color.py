@@ -4,16 +4,22 @@ from skimage import io
 import matplotlib.pyplot as plt
 from matplotlib.colors import rgb2hex
 
-people = ['chelly','teddy']
+#do in batches so my computer doesn't die
+# people = ['chelly','daniella','danny','irene','teddy']
+# people = ['akhil','armaan','sarah','sophia','stephen','zach']
+# people = ['sakke','jacob','jason','angel','sky','emma']
+people = ['adam','ava','david','et','isaac','lou','ravindra','stephanie']
 
-for x in range (0,2):
+for x in range (0,len(people)):
     #read the image
     img = io.imread(f'./profiles/{people[x]}.jpg')[:, :, :]
 
+    #calculate the mean of each chromatic channel
     average = img.mean(axis=0).mean(axis=0)
-    hexColor = rgb2hex(average/255)
+    hexColor = rgb2hex(average/255) #convert to hex
     pixels = np.float32(img.reshape(-1, 3))
 
+    #apply k-means clustering to create a palette with the most representative colours of the image
     n_colors = 5
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, .1)
     flags = cv2.KMEANS_RANDOM_CENTERS
@@ -22,6 +28,7 @@ for x in range (0,2):
     _, counts = np.unique(labels, return_counts=True)
     dominant = palette[np.argmax(counts)]
 
+    #generate figure
     avg_patch = np.ones(shape=img.shape, dtype=np.uint8)*np.uint8(average)
 
     indices = np.argsort(counts)[::-1]   
