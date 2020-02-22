@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import rgb2hex
 
 #do in batches so my computer doesn't die
-# people = ['chelly','daniella','danny','irene','teddy']
+people = ['chelly','daniella','danny','irene','teddy','pravika']
 # people = ['akhil','armaan','sarah','sophia','stephen','zach']
 # people = ['sakke','jacob','jason','angel','sky','emma']
-people = ['adam','ava','david','et','isaac','lou','ravindra','stephanie']
+# people = ['adam','ava','david','et','isaac','lou','ravindra','stephanie']
 
 for x in range (0,len(people)):
     #read the image
@@ -20,13 +20,13 @@ for x in range (0,len(people)):
     pixels = np.float32(img.reshape(-1, 3))
 
     #apply k-means clustering to create a palette with the most representative colours of the image
-    n_colors = 5
+    n_colors = 7
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, .1)
     flags = cv2.KMEANS_RANDOM_CENTERS
 
     _, labels, palette = cv2.kmeans(pixels, n_colors, None, criteria, 10, flags)
     _, counts = np.unique(labels, return_counts=True)
-    dominant = palette[np.argmax(counts)]
+    dominant = palette[np.argmax(counts-2)]
 
     #generate figure
     avg_patch = np.ones(shape=img.shape, dtype=np.uint8)*np.uint8(average)
@@ -37,12 +37,13 @@ for x in range (0,len(people)):
  
     dom_patch = np.zeros(shape=img.shape, dtype=np.uint8)
     hexVals = ""
+    
     for i in range(len(rows) - 1):
         dom_patch[rows[i]:rows[i + 1], :, :] += np.uint8(palette[indices[i]])
         hexVals = hexVals + str(rgb2hex((palette[indices[i]]) / 255)) + " "
-        if i==2:
+        if i==3:
             hexVals = hexVals + "\n"
-
+    
     fig, (ax0, ax1,ax2) = plt.subplots(1, 3, figsize=(12,6))
 
     ax0.imshow(img)
