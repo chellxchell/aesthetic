@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import rgb2hex
 
 #do in batches so my computer doesn't die
-people = ['chelly','daniella','danny','irene','teddy','pravika']
+# people = ['chelly','daniella','danny','irene','teddy','pravika']
 # people = ['akhil','armaan','sarah','sophia','stephen','zach']
 # people = ['sakke','jacob','jason','angel','sky','emma']
 # people = ['adam','ava','david','et','isaac','lou','ravindra','stephanie']
@@ -20,7 +20,7 @@ for x in range (0,len(people)):
     pixels = np.float32(img.reshape(-1, 3))
 
     #apply k-means clustering to create a palette with the most representative colours of the image
-    n_colors = 7
+    n_colors = 15
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, .1)
     flags = cv2.KMEANS_RANDOM_CENTERS
 
@@ -41,19 +41,16 @@ for x in range (0,len(people)):
     for i in range(len(rows) - 1):
         dom_patch[rows[i]:rows[i + 1], :, :] += np.uint8(palette[indices[i]])
         hexVals = hexVals + str(rgb2hex((palette[indices[i]]) / 255)) + " "
-        if i==3:
+        if i%3==0:
             hexVals = hexVals + "\n"
     
-    fig, (ax0, ax1,ax2) = plt.subplots(1, 3, figsize=(12,6))
+    fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(12,6))
 
     ax0.imshow(img)
     ax0.set_title('Insta Feed \n' + people[x])
     ax0.axis('off')
-    ax1.imshow(avg_patch)
-    ax1.set_title('Average color: \n'+str(hexColor))
+    ax1.imshow(dom_patch)
+    ax1.set_title('Dominant colors \n' + hexVals)
     ax1.axis('off')
-    ax2.imshow(dom_patch)
-    ax2.set_title('Dominant colors \n' + hexVals)
-    ax2.axis('off')
 
     plt.show(fig)
