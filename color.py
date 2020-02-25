@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import rgb2hex
 
 #do in batches so my computer doesn't die
-# people = ['chelly','daniella','danny','irene','teddy','pravika']
+people = ['chelly','daniella','danny','irene','teddy','pravika']
 # people = ['akhil','armaan','sarah','sophia','stephen','zach']
 # people = ['sakke','jacob','jason','angel','sky','emma']
 # people = ['adam','ava','david','et','isaac','lou','ravindra','stephanie']
